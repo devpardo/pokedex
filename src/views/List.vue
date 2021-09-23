@@ -1,18 +1,25 @@
 <template>
   <div>
     <b-container>
+      <b-row class="mb-3">
+         <router-link class="font-big my-font m-2 rounded" tag="button" to="/">Search</router-link>
+      </b-row>
       <b-row>
+        <b-col cols="12" lg="3" v-for="pokemon in items" :key="pokemon.name">
+          <PokemonCard :details="pokemon" />
+        </b-col>
+
         <b-pagination
           center
           v-model="currentPage"
           :total-rows="count"
           :per-page="20"
           aria-controls="my-table"
+          size="lg"
+          align="center"
+          class="mb-5"
+          id="paginate"
         ></b-pagination>
-
-        <b-col cols="12" lg="3" v-for="pokemon in items" :key="pokemon.name">
-          <PokemonCard :details="pokemon" />
-        </b-col>
 
       </b-row>
     </b-container>
@@ -87,5 +94,7 @@ export default {
 </script>
 
 <style scoped>
-
+#paginate {
+  font-family: 'Gluten', cursive;
+}
 </style>

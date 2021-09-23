@@ -31,6 +31,10 @@ body {
   font-family: 'Gluten', cursive;
 }
 
+.my-font {
+  font-family: 'Gluten', cursive;
+}
+
 #nav a {
   font-weight: bold;
   color: #2c3e50;
