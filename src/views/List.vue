@@ -2,9 +2,18 @@
   <div>
     <b-container>
       <b-row>
-        <b-col cols="12" lg="3" v-for="item in items" :key="item.name">
-          <PokemonCard :isList="true" :details="item" />
+        <b-pagination
+          center
+          v-model="currentPage"
+          :total-rows="count"
+          :per-page="20"
+          aria-controls="my-table"
+        ></b-pagination>
+
+        <b-col cols="12" lg="3" v-for="pokemon in items" :key="pokemon.name">
+          <PokemonCard :details="pokemon" />
         </b-col>
+
       </b-row>
     </b-container>
   </div>
@@ -19,19 +28,37 @@ export default {
   name : 'List',
   data() {
     return {
-      items : []
+      items : [],
+      count : 0,
+      limit : 20,
+      offset : 20,
+      currentPage : 1,
+      next : 0,
+      previous : 0
     }
   },
   mounted() {
-    this.getPokemonList();
+    this.getPokemonList(null, null);
   },
   methods : {
-    getPokemonList() {
-      axios.get('/pokemon/').then((res) => {
+    getPokemonList(limit, offset) {
+      axios.get('/pokemon/', {
+        params : {
+          limit : limit,
+          offset : offset
+        }
+      }).then((res) => {
         
-        let items = res.data.results
-        items.forEach(item => {
-          axios.get(`/pokemon/${item.name}`).then(result => {
+        let pokemons = res.data.results;
+        this.count = res.data.count;
+
+        this.next = res.data.next;
+        this.previous = res.data.previous;
+
+        console.log(res.data);
+
+        pokemons.forEach(pokemon => {
+          axios.get(`/pokemon/${pokemon.name}`).then(result => {
             result.data.image = result.data.sprites.other.dream_world.front_default;
             this.items.push(result.data);
           })
@@ -40,6 +67,20 @@ export default {
       }).catch((err) => {
         console.log(err);
       })
+    }
+  },
+  watch: {
+    currentPage: {
+      handler: function(newval) {
+        if(newval == 1){
+          this.offset = null;
+        } else {
+          this.offset = 20;
+          this.offset = this.offset * newval;
+        }
+        this.items = [];
+        this.getPokemonList(this.limit, this.offset);
+      }
     }
   }
 }

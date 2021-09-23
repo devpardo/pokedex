@@ -1,8 +1,8 @@
 <template>
   <b-row v-if="details" align-h="center">
     <b-col class="d-flex justify-content-center">
-      <b-card text-variant="white" :style="{'background' : getBG, 'width' : '18rem'}">
-        <h1 class="text-capitalize m-0 poke-title">{{details.name}}</h1>
+      <b-card text-variant="white" class="mb-3" :style="{'background' : getBG, 'width' : '18rem'}">
+        <h2 class="text-capitalize m-0 poke-title">{{details.name}}</h2>
         <PokemonType :types="details.types"/>
 
         <b-img width="130" center :src="details.image"></b-img>

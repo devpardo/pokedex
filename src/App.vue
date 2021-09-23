@@ -11,10 +11,15 @@
 </template>
 
 <style>
-#app {
+
+body {
   background-image: url('https://wallup.net/wp-content/uploads/2016/05/24/143432-nature-Pokemon.jpg');
-  background-size: contain;
+  background-size: cover;
+  background-attachment: fixed;
   height: 100vh;
+  background-repeat: no-repeat;
+}
+#app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
